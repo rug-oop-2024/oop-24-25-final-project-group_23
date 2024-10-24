@@ -153,12 +153,12 @@ If you did not implement the feature
 
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
 |-------------------------------------- |--------------|----------------------|--------------------------|---------|         
-| Up-to-date requirements.txt           | NF           |                      |         | |
-| `ML/detect-features`                  | FN           |                      |         | |
-| `ML/artifact`                         | NF           |                      |         | |
-| `ML/feature`                          | NF           |                      |         | |
-| `ML/metric`                           | NF           |                      |         | |
-| `ML/metric/extensions`                | FN           |                      |         | |
+| Up-to-date requirements.txt           | NF           | Beatrice             |
+| `ML/detect-features`                  | FN           | Beatrice             |         | |
+| `ML/artifact`                         | NF           | Beatrice             |         | |
+| `ML/feature`                          | NF           | Beatrice             |         | |
+| `ML/metric`                           | NF           | Beatrice             |      X  | |
+| `ML/metric/extensions`                | FN           | Beatrice             |      X  | |
 | `ML/model`                            | NF           |                      |         | |
 | `ML/model/extensions`                 | FN           |                      |         | |
 | `ML/pipeline/evaluation`              | FN           |                      |         | | 
