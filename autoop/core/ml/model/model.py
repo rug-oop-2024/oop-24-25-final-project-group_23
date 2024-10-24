@@ -6,5 +6,4 @@ from copy import deepcopy
 from typing import Literal
 
 class Model:
-    pass # your code (attribute and methods) here
-    
+    pass  # your code (attribute and methods) here
