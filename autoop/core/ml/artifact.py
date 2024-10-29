@@ -1,16 +1,20 @@
 from pydantic import BaseModel, Field
 import base64
-from typing import Any, Dict, List
+from typing import Dict, List, Optional
 
 
-class Artifact(BaseModel):
-    name: str
-    asset_path: str
-    version: str
-    data: bytes
-    metadata: Dict[str, Any]
-    type: str
-    tags: List[str] = Field(default_factory=list)
+class Artifact:
+
+    def __init__(self, name: str, asset_path: str, data: bytes,
+                 type: str, tags: Optional[List[str]] = None,
+                 metadata: Optional[Dict] = None, version: str = "1.0.0"):
+        self.name = name
+        self.asset_path = asset_path
+        self.data = data
+        self.version = version
+        self.type = type
+        self.tags = tags
+        self.metadata = metadata
 
     @property
     def id(self) -> str:

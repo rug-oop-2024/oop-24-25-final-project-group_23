@@ -162,9 +162,9 @@ If you did not implement the feature
 | `ML/model`                            | NF           |                      |         | |
 | `ML/model/extensions`                 | FN           |                      |         | |
 | `ML/pipeline/evaluation`              | FN           |                      |         | | 
-| `ST/page/datasets`                    | NF           |                      |         | |
-| `ST/datasets/management/create`       | FN           |                      |         | |
-| `ST/datasets/management/save`         | FN           |                      |         | |
+| `ST/page/datasets`                    | NF           | Beatrice             |         | |
+| `ST/datasets/management/create`       | FN           | Beatrice             |         | |
+| `ST/datasets/management/save`         | FN           | Beatrice             |         | |
 | `ST/page/modelling`                   | NF           |                      |         | |
 | `ST/modelling/datasets/list`          | FN           |                      |         | |
 | `ST/modelling/datasets/features`      | FN           |                      |         | |
