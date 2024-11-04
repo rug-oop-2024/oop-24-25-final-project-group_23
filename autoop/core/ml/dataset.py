@@ -1,20 +1,24 @@
 from autoop.core.ml.artifact import Artifact
-from abc import ABC, abstractmethod
 import pandas as pd
 import io
 
 
 class Dataset(Artifact):
+    """Dataset inheriting from Artifact"""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
+        """Inherits initialization from Artifact"""
         super().__init__(type="dataset", *args, **kwargs)
 
     @staticmethod
     def from_dataframe(data: pd.DataFrame, name: str, asset_path: str,
                        version: str = "1.0.0") -> 'Dataset':
+        """Returns a Dataset from a dataframe"""
+        safe_version = version.replace(".", "_").replace(":", "_").replace("=", "_")
+        safe_asset_path = f"{asset_path}_v{safe_version}.csv"
         return Dataset(
             name=name,
-            asset_path=asset_path,
+            asset_path=safe_asset_path,
             data=data.to_csv(index=False).encode(),
             version=version,
         )

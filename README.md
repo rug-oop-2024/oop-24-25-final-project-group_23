@@ -159,14 +159,14 @@ If you did not implement the feature
 | `ML/feature`                          | NF           | Beatrice             |         | |
 | `ML/metric`                           | NF           | Beatrice             |      X  | |
 | `ML/metric/extensions`                | FN           | Beatrice             |      X  | |
-| `ML/model`                            | NF           |                      |         | |
-| `ML/model/extensions`                 | FN           |                      |         | |
-| `ML/pipeline/evaluation`              | FN           |                      |         | | 
+| `ML/model`                            | NF           | Jonathan             |         | |
+| `ML/model/extensions`                 | FN           | Jonathan             |         | |
+| `ML/pipeline/evaluation`              | FN           | Beatrice             |         | | 
 | `ST/page/datasets`                    | NF           | Beatrice             |         | |
 | `ST/datasets/management/create`       | FN           | Beatrice             |         | |
 | `ST/datasets/management/save`         | FN           | Beatrice             |         | |
-| `ST/page/modelling`                   | NF           |                      |         | |
-| `ST/modelling/datasets/list`          | FN           |                      |         | |
+| `ST/page/modelling`                   | NF           | Both                 |         | |
+| `ST/modelling/datasets/list`          | FN           | Beatrice             |         | |
 | `ST/modelling/datasets/features`      | FN           |                      |         | |
 | `ST/modelling/models`                 | FN           |                      |         | |
 | `ST/modelling/pipeline/split`         | FN           |                      |         | |

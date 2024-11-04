@@ -1,19 +1,41 @@
-
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Literal
 import numpy as np
 from autoop.core.ml.dataset import Dataset
+import pandas as pd
 
 
 class Feature(BaseModel):
-    """
-    Attributes: name = name of the feature in the dataset
-                feature_type = numerical/categorical
-    """
 
-    name: str
-    feature_type: Literal["numerical", "categorical"]
+    def __init__(self, name,
+                 type: Literal["numerical", "categorical"]) -> None:
 
-    def __str__(self):
+        """
+        Attributes: name: str = name of the feature in the dataset
+                    type: Literal = numerical/categorical
+        """
+        self.name = name
+        self.type = type
+
+    def __str__(self) -> str:
         """Returns string of the name and feature type"""
-        return f"Feature(name={self.name}, type={self.feature_type})"
+        return f"Feature(name={self.name}, type={self.type})"
+
+    def get_data(self, dataset: Dataset) -> np.ndarray:
+        """Extracts the feature's data from the dataset as a NumPy array.
+
+        Args:
+            dataset (Dataset): The dataset from which to extract the feature
+            data.
+
+        Returns:
+            np.ndarray: The feature data as a NumPy array.
+        """
+        df = dataset.read()
+        if self.name not in df.columns:
+            raise ValueError(f"Feature '{self.name}' not found in dataset.")
+
+        data = df[self.name].values
+        if self.type == "categorical":
+            data = pd.Categorical(data).codes
+        return data

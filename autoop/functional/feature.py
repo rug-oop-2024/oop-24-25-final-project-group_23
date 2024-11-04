@@ -20,6 +20,6 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
             feature_type = "numerical"
         else:
             feature_type = "categorical"
-        features.append(Feature(name=column, feature_type=feature_type))
+        features.append(Feature(name=column, type=feature_type))
 
     return features

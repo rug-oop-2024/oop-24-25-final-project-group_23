@@ -19,7 +19,8 @@ class Pipeline():
                  input_features: List[Feature],
                  target_feature: Feature,
                  split=0.8,
-                 ):
+                 ) -> None:
+        """Pipeline initialization"""
         self._dataset = dataset
         self._model = model
         self._input_features = input_features
@@ -35,7 +36,8 @@ class Pipeline():
             raise ValueError("Model type must be regression for continuous "
                              "target feature")
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """String repr of pipeline"""
         return f"""
 Pipeline(
     model={self._model.type},
@@ -47,7 +49,8 @@ Pipeline(
 """
 
     @property
-    def model(self):
+    def model(self) -> Model:
+        """Getter for the model"""
         return self._model
 
     @property
@@ -77,10 +80,12 @@ Pipeline(
                                                  f"{self._model.type}"))
         return artifacts
 
-    def _register_artifact(self, name: str, artifact):
+    def _register_artifact(self, name: str, artifact) -> None:
+        """Register artifact"""
         self._artifacts[name] = artifact
 
-    def _preprocess_features(self):
+    def _preprocess_features(self) -> None:
+        """Preprocess features"""
         (target_feature_name, target_data, artifact) = preprocess_features(
                                                        [self._target_feature],
                                                        self._dataset)[0]
@@ -89,13 +94,14 @@ Pipeline(
                                             self._dataset)
         for (feature_name, data, artifact) in input_results:
             self._register_artifact(feature_name, artifact)
-        # Get the input vectors and output vector, sort by feature name for consistency
+        # Get the input vectors and output vector,
+        # sort by feature name for consistency
         self._output_vector = target_data
         self._input_vectors = [data for (feature_name, data, artifact) in
                                input_results]
 
-    def _split_data(self):
-        # Split the data into training and testing sets
+    def _split_data(self) -> None:
+        """Split the data into training and testing sets"""
         split = self._split
         self._train_X = [vector[:int(split * len(vector))] for vector in
                          self._input_vectors]
@@ -107,14 +113,19 @@ Pipeline(
                                                len(self._output_vector)):]
 
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
+        """Compact vectors
+        Returns: np.array
+        """
         return np.concatenate(vectors, axis=1)
 
-    def _train(self):
+    def _train(self) -> None:
+        """Train model"""
         X = self._compact_vectors(self._train_X)
         Y = self._train_y
         self._model.fit(X, Y)
 
-    def _evaluate(self):
+    def _evaluate(self) -> None:
+        """Evaluate using metrics"""
         X = self._compact_vectors(self._test_X)
         Y = self._test_y
         self._metrics_results = []
@@ -124,12 +135,35 @@ Pipeline(
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 
-    def execute(self):
+    def execute(self) -> dict:
+        """Execution of the pipeline
+        Returns: Dict with metrics and predictions
+        """
         self._preprocess_features()
         self._split_data()
         self._train()
-        self._evaluate()
+
+        # Evaluate on the training set
+        self._test_X, self._test_y = self._train_X, self._train_y
+        self._evaluate()  # Evaluate on training data
+        train_metrics_results = [(f"train_{metric}", result) for metric,
+                                 result in self._metrics_results]
+        train_predictions = self._predictions
+
+        # Evaluate on the test set
+        self._test_X, self._test_y = self._test_X, self._test_y
+        self._evaluate()  # Evaluate on test data
+        test_metrics_results = [(f"test_{metric}", result) for metric,
+                                result in self._metrics_results]
+        test_predictions = self._predictions
+
+        # Combine metrics for both datasets
+        all_metrics_results = train_metrics_results + test_metrics_results
+
         return {
-            "metrics": self._metrics_results,
-            "predictions": self._predictions,
+            "metrics": all_metrics_results,
+            "predictions": {
+                "train": train_predictions,
+                "test": test_predictions
+            }
         }

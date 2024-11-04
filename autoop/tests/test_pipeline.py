@@ -11,8 +11,10 @@ from autoop.core.ml.metric import MeanSquaredError
 
 
 class TestPipeline(unittest.TestCase):
+    """Unit test for pipeline"""
 
     def setUp(self) -> None:
+        """Set up"""
         data = fetch_openml(name="adult", version=1, parser="auto")
         df = pd.DataFrame(
             data.data,
@@ -35,14 +37,17 @@ class TestPipeline(unittest.TestCase):
         )
         self.ds_size = data.data.shape[0]
 
-    def test_init(self):
+    def test_init(self) -> None:
+        """Test initialization"""
         self.assertIsInstance(self.pipeline, Pipeline)
 
-    def test_preprocess_features(self):
+    def test_preprocess_features(self) -> None:
+        """Test preprocess features"""
         self.pipeline._preprocess_features()
         self.assertEqual(len(self.pipeline._artifacts), len(self.features))
 
-    def test_split_data(self):
+    def test_split_data(self) -> None:
+        """Test split data"""
         self.pipeline._preprocess_features()
         self.pipeline._split_data()
         self.assertEqual(self.pipeline._train_X[0].shape[0],
@@ -50,13 +55,15 @@ class TestPipeline(unittest.TestCase):
         self.assertEqual(self.pipeline._test_X[0].shape[0],
                          self.ds_size - int(0.8 * self.ds_size))
 
-    def test_train(self):
+    def test_train(self) -> None:
+        """Test train"""
         self.pipeline._preprocess_features()
         self.pipeline._split_data()
         self.pipeline._train()
         self.assertIsNotNone(self.pipeline._model.parameters)
 
-    def test_evaluate(self):
+    def test_evaluate(self) -> None:
+        """Test evaluate"""
         self.pipeline._preprocess_features()
         self.pipeline._split_data()
         self.pipeline._train()

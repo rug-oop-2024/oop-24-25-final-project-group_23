@@ -3,14 +3,19 @@ import os
 from typing import List
 from glob import glob
 
+
 class NotFoundError(Exception):
-    def __init__(self, path):
+    """Error class for path not found"""
+    def __init__(self, path) -> None:
+        """Error for path not found"""
         super().__init__(f"Path not found: {path}")
 
+
 class Storage(ABC):
+    """Abstract class for storage"""
 
     @abstractmethod
-    def save(self, data: bytes, path: str):
+    def save(self, data: bytes, path: str) -> None:
         """
         Save data to a given path
         Args:
@@ -31,7 +36,7 @@ class Storage(ABC):
         pass
 
     @abstractmethod
-    def delete(self, path: str):
+    def delete(self, path: str) -> None:
         """
         Delete data at a given path
         Args:
@@ -50,14 +55,18 @@ class Storage(ABC):
         """
         pass
 
-class LocalStorage(Storage):
 
-    def __init__(self, base_path: str = "./assets"):
+class LocalStorage(Storage):
+    """Local storage inheriting from Storage base class"""
+
+    def __init__(self, base_path: str = "./assets") -> None:
+        """Initialize the local storage"""
         self._base_path = os.path.normpath(base_path)
         if not os.path.exists(self._base_path):
             os.makedirs(self._base_path)
 
-    def save(self, data: bytes, key: str):
+    def save(self, data: bytes, key: str) -> None:
+        """Save data"""
         path = self._join_path(key)
         # Ensure parent directories are created
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -65,27 +74,32 @@ class LocalStorage(Storage):
             f.write(data)
 
     def load(self, key: str) -> bytes:
+        """Load data"""
         path = self._join_path(key)
         self._assert_path_exists(path)
         with open(path, 'rb') as f:
             return f.read()
 
-    def delete(self, key: str = "/"):
+    def delete(self, key: str = "/") -> None:
+        """Delete"""
         path = self._join_path(key)
         self._assert_path_exists(path)
         os.remove(path)
 
     def list(self, prefix: str = "/") -> List[str]:
+        """Returns a list of strings"""
         path = self._join_path(prefix)
         self._assert_path_exists(path)
         # Use os.path.join for compatibility across platforms
         keys = glob(os.path.join(path, "**", "*"), recursive=True)
-        return [os.path.relpath(p, self._base_path) for p in keys if os.path.isfile(p)]
+        return [os.path.relpath(p, self._base_path) for p in keys
+                if os.path.isfile(p)]
 
-    def _assert_path_exists(self, path: str):
+    def _assert_path_exists(self, path: str) -> None:
+        """Check whether path exists"""
         if not os.path.exists(path):
             raise NotFoundError(path)
 
     def _join_path(self, path: str) -> str:
-        # Ensure paths are OS-agnostic
+        """ Ensure paths are OS-agnostic"""
         return os.path.normpath(os.path.join(self._base_path, path))

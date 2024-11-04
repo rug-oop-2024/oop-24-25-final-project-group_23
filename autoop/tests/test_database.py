@@ -7,21 +7,26 @@ import tempfile
 
 
 class TestDatabase(unittest.TestCase):
+    """Unit test for database"""
 
-    def setUp(self):
+    def setUp(self) -> None:
+        """Set up storage and database"""
         self.storage = LocalStorage(tempfile.mkdtemp())
         self.db = Database(self.storage)
 
-    def test_init(self):
+    def test_init(self) -> None:
+        """Test initialization"""
         self.assertIsInstance(self.db, Database)
 
-    def test_set(self):
+    def test_set(self) -> None:
+        """Test set method"""
         id = str(random.randint(0, 100))
         entry = {"key": random.randint(0, 100)}
         self.db.set("collection", id, entry)
         self.assertEqual(self.db.get("collection", id)["key"], entry["key"])
 
-    def test_delete(self):
+    def test_delete(self) -> None:
+        """Test delete method"""
         id = str(random.randint(0, 100))
         value = {"key": random.randint(0, 100)}
         self.db.set("collection", id, value)
@@ -30,14 +35,16 @@ class TestDatabase(unittest.TestCase):
         self.db.refresh()
         self.assertIsNone(self.db.get("collection", id))
 
-    def test_persistance(self):
+    def test_persistance(self) -> None:
+        """Test persistance"""
         id = str(random.randint(0, 100))
         value = {"key": random.randint(0, 100)}
         self.db.set("collection", id, value)
         other_db = Database(self.storage)
         self.assertEqual(other_db.get("collection", id)["key"], value["key"])
 
-    def test_refresh(self):
+    def test_refresh(self) -> None:
+        """Test refresh"""
         key = str(random.randint(0, 100))
         value = {"key": random.randint(0, 100)}
         other_db = Database(self.storage)
@@ -45,7 +52,8 @@ class TestDatabase(unittest.TestCase):
         other_db.refresh()
         self.assertEqual(other_db.get("collection", key)["key"], value["key"])
 
-    def test_list(self):
+    def test_list(self) -> None:
+        """Test list"""
         key = str(random.randint(0, 100))
         value = {"key": random.randint(0, 100)}
         self.db.set("collection", key, value)

@@ -44,6 +44,18 @@ class Metric(ABC):
         """
         pass
 
+    def evaluate(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:
+        """Wrapper method to calculate the metric by calling __call__.
+
+        Args:
+            y_true (np.ndarray): Ground truth values.
+            y_pred (np.ndarray): Predicted values.
+
+        Returns:
+            float: The calculated metric value.
+        """
+        return self.__call__(y_true, y_pred)
+
 # ==========================
 # REGRESSION METRICS
 # ==========================
