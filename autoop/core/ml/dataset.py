@@ -14,11 +14,9 @@ class Dataset(Artifact):
     def from_dataframe(data: pd.DataFrame, name: str, asset_path: str,
                        version: str = "1.0.0") -> 'Dataset':
         """Returns a Dataset from a dataframe"""
-        safe_version = version.replace(".", "_").replace(":", "_").replace("=", "_")
-        safe_asset_path = f"{asset_path}_v{safe_version}.csv"
         return Dataset(
             name=name,
-            asset_path=safe_asset_path,
+            asset_path=asset_path,
             data=data.to_csv(index=False).encode(),
             version=version,
         )

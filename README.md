@@ -153,8 +153,8 @@ If you did not implement the feature
 
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
 |-------------------------------------- |--------------|----------------------|--------------------------|---------|         
-| Up-to-date requirements.txt           | NF           | Beatrice             |
-| `ML/detect-features`                  | FN           | Beatrice             |         | |
+| Up-to-date requirements.txt           | NF           | Beatrice             |      X
+| `ML/detect-features`                  | FN           | Beatrice             |      X  | |
 | `ML/artifact`                         | NF           | Beatrice             |         | |
 | `ML/feature`                          | NF           | Beatrice             |         | |
 | `ML/metric`                           | NF           | Beatrice             |      X  | |
@@ -166,8 +166,8 @@ If you did not implement the feature
 | `ST/datasets/management/create`       | FN           | Beatrice             |         | |
 | `ST/datasets/management/save`         | FN           | Beatrice             |         | |
 | `ST/page/modelling`                   | NF           | Both                 |         | |
-| `ST/modelling/datasets/list`          | FN           | Beatrice             |         | |
-| `ST/modelling/datasets/features`      | FN           |                      |         | |
+| `ST/modelling/datasets/list`          | FN           | Beatrice             |      X  | |
+| `ST/modelling/datasets/features`      | FN           | Beatrice             |      X  | |
 | `ST/modelling/models`                 | FN           |                      |         | |
 | `ST/modelling/pipeline/split`         | FN           |                      |         | |
 | `ST/modelling/pipeline/metrics`       | FN           |                      |         | |

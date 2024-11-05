@@ -1,5 +1,6 @@
 import base64
 from typing import Dict, List, Optional, Any
+import pandas as pd
 
 
 class Artifact:
@@ -30,8 +31,11 @@ class Artifact:
     def id(self) -> str:
         """Derives the ID from the asset_path and version."""
         encoded_path = base64.b64encode(self.asset_path.encode()).decode()
-        safe_version = self.version.replace(".", "_").replace(":", "_").replace("=", "_")
-        return f"{encoded_path}:{safe_version}"
+        safe_version = self.version.replace(".",
+                                            "_").replace(":",
+                                                         "_").replace("=", "_")
+        encoded_path = encoded_path[:-2]
+        return f"{encoded_path}_{safe_version}"
 
     def read(self) -> bytes:
         """Returns the artifact's data."""

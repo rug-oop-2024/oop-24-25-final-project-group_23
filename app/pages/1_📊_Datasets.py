@@ -20,7 +20,7 @@ if uploaded_file:
     dataset_name = st.text_input("Enter a name for the dataset artifact",
                                  value=uploaded_file.name.split('.')[0])
 
-    asset_path = f"datasets/{dataset_name}.csv"
+    asset_path = f"./{dataset_name}.csv"
 
     dataset = Dataset.from_dataframe(dataframe, name=dataset_name,
                                      asset_path=asset_path, version="1.0.0")

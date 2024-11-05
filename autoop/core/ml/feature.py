@@ -1,13 +1,12 @@
-from pydantic import BaseModel
 from typing import Literal
 import numpy as np
 from autoop.core.ml.dataset import Dataset
 import pandas as pd
 
 
-class Feature(BaseModel):
+class Feature():
 
-    def __init__(self, name,
+    def __init__(self, name: str,
                  type: Literal["numerical", "categorical"]) -> None:
 
         """
@@ -32,6 +31,9 @@ class Feature(BaseModel):
             np.ndarray: The feature data as a NumPy array.
         """
         df = dataset.read()
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError("Expected dataset to return a DataFrame.")
+
         if self.name not in df.columns:
             raise ValueError(f"Feature '{self.name}' not found in dataset.")
 
