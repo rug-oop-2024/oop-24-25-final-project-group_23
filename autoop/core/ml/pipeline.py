@@ -30,16 +30,16 @@ class Pipeline():
         self._artifacts = {}
         self._split = split
         if (
-            target_feature.type == "categorical" and
-            model.type != "classification"
+            target_feature.type == "categorical"
+            and model.type != "classification"
         ):
             raise ValueError("Model type must be classification "
                              "for categorical target feature"
                              )
 
         if (
-            target_feature.type == "continuous" and
-            model.type != "regression"
+            target_feature.type == "continuous"
+            and model.type != "regression"
         ):
             raise ValueError("Model type must be regression "
                              "for continuous target feature"
@@ -96,8 +96,9 @@ Pipeline(
     def _preprocess_features(self) -> None:
         """Preprocess features"""
         (target_feature_name, target_data, artifact) = preprocess_features(
-                                                [self._target_feature],
-                                                self._dataset)[0]
+            [self._target_feature],
+            self._dataset
+        )[0]
         self._register_artifact(target_feature_name, artifact)
         input_results = preprocess_features(self._input_features,
                                             self._dataset)
