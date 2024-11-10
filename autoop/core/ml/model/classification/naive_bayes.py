@@ -86,7 +86,7 @@ class NaiveBayesModel(Model):
                 likelihood = -0.5 * np.sum(
                     np.log(
                         2 * np.pi * self._parameters['likelihoods'][c][
-                         'var']) + ((x - self._parameters['likelihoods'][c][
+                            'var']) + ((x - self._parameters['likelihoods'][c][
                              'mean']) ** 2) / (self._parameters[
                                  'likelihoods'][c]['var'])
                 )

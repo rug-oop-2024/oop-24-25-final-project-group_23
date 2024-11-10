@@ -3,7 +3,6 @@ import numpy as np
 from pydantic import Field, PrivateAttr, field_validator
 from copy import deepcopy
 from collections import Counter
-from typing import Any
 
 
 class KNearestNeighbors(Model):
@@ -22,7 +21,7 @@ class KNearestNeighbors(Model):
         self.k = k
 
     @field_validator("k")
-    def k_greater_than_zero(cls, value: Any) -> int:
+    def k_greater_than_zero(cls, value: int) -> int:
         """Field validator for k. It should be an integer greater than 0"""
         if value <= 0:
             raise ValueError("k must be greater than 0")
@@ -49,7 +48,7 @@ class KNearestNeighbors(Model):
         predictions = [self._predict_single(x1) for x1 in x]
         return np.array(predictions)
 
-    def _predict_single(self, x: np.ndarray) -> Any:
+    def _predict_single(self, x: np.ndarray) -> list:
         """
         Helps the predict method by making a prediction for a single
         observation

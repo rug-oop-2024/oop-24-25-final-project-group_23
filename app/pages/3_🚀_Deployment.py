@@ -26,8 +26,8 @@ if selected_pipeline_name:
     st.write(f"**Name**: {loaded_pipeline.name}")
     st.write(f"**Version**: {loaded_pipeline.version}")
     st.write(f"**Model Type**: {loaded_pipeline.model.type}")
-    st.write(f"**Input Features**: {[feature.name for feature in
-                                    loaded_pipeline.input_features]}")
+    st.write(f"**Input Features**: "
+             f"{[feature.name for feature in loaded_pipeline.input_features]}")
     st.write(f"**Target Feature**: {loaded_pipeline.target_feature.name}")
     st.write(f"**Metrics**: {[metric.__class__.__name__ for metric
                               in loaded_pipeline.metrics]}")

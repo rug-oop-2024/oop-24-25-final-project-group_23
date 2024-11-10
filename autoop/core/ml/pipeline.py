@@ -19,7 +19,7 @@ class Pipeline():
                  model: Model,
                  input_features: List[Feature],
                  target_feature: Feature,
-                 split=0.8,
+                 split: float = 0.8,
                  ) -> None:
         """Pipeline initialization"""
         self._dataset = dataset
@@ -81,15 +81,15 @@ Pipeline(
                                                  f"{self._model.type}"))
         return artifacts
 
-    def _register_artifact(self, name: str, artifact) -> None:
+    def _register_artifact(self, name: str, artifact: Artifact) -> None:
         """Register artifact"""
         self._artifacts[name] = artifact
 
     def _preprocess_features(self) -> None:
         """Preprocess features"""
         (target_feature_name, target_data, artifact) = preprocess_features(
-                                                    [self._target_feature],
-                                                    self._dataset)[0]
+                                                [self._target_feature],
+                                                self._dataset)[0]
         self._register_artifact(target_feature_name, artifact)
         input_results = preprocess_features(self._input_features,
                                             self._dataset)

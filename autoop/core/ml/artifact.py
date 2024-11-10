@@ -1,5 +1,5 @@
 import base64
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional
 
 
 class Artifact:
@@ -44,7 +44,7 @@ class Artifact:
         """Set or update the artifact's data."""
         self._data = new_data
 
-    def get(self, attribute: str) -> Any:
+    def get(self, attribute: str) -> str | bytes:
         """Retrieve an attribute by name if it exists, otherwise
            raise AttributeError.
         Args:

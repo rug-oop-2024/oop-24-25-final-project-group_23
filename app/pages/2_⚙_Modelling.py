@@ -19,7 +19,7 @@ from autoop.core.ml.pipeline import Pipeline
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
 
-def write_helper_text(text: str):
+def write_helper_text(text: str) -> None:
     """Text writing helper that adds style"""
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
 
@@ -105,10 +105,10 @@ if selected_dataset:
         st.header("5. Select Metrics")
         compatible_metrics = [
             metric for metric in METRICS if (
-             task_type == "classification" and metric in
-             ["accuracy", "precision", "f1_score"]) or (
+              task_type == "classification" and metric in
+              ["accuracy", "precision", "f1_score"]) or (
                  task_type == "regression" and metric in
-                ["mean_squared_error", "mean_absolute_error", "r_squared"])]
+                 ["mean_squared_error", "mean_absolute_error", "r_squared"])]
         selected_metrics = st.multiselect("Select metrics for evaluation",
                                           options=compatible_metrics)
         metrics_objs = [get_metric(metric) for metric in selected_metrics]
