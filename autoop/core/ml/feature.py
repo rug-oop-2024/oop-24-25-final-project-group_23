@@ -5,6 +5,7 @@ import pandas as pd
 
 
 class Feature():
+    """Feature class for the dataset's features"""
 
     def __init__(self, name: str,
                  type: Literal["numerical", "categorical"]) -> None:

@@ -155,28 +155,28 @@ If you did not implement the feature
 |-------------------------------------- |--------------|----------------------|--------------------------|---------|         
 | Up-to-date requirements.txt           | NF           | Beatrice             |      X
 | `ML/detect-features`                  | FN           | Beatrice             |      X  | |
-| `ML/artifact`                         | NF           | Beatrice             |         | |
-| `ML/feature`                          | NF           | Beatrice             |         | |
+| `ML/artifact`                         | NF           | Beatrice             |      X  | |
+| `ML/feature`                          | NF           | Beatrice             |      X  | |
 | `ML/metric`                           | NF           | Beatrice             |      X  | |
 | `ML/metric/extensions`                | FN           | Beatrice             |      X  | |
-| `ML/model`                            | NF           | Jonathan             |         | |
-| `ML/model/extensions`                 | FN           | Jonathan             |         | |
-| `ML/pipeline/evaluation`              | FN           | Beatrice             |         | | 
-| `ST/page/datasets`                    | NF           | Beatrice             |         | |
-| `ST/datasets/management/create`       | FN           | Beatrice             |         | |
-| `ST/datasets/management/save`         | FN           | Beatrice             |         | |
-| `ST/page/modelling`                   | NF           | Both                 |         | |
+| `ML/model`                            | NF           | Jonathan             |      X  | |
+| `ML/model/extensions`                 | FN           | Jonathan             |      X  | |
+| `ML/pipeline/evaluation`              | FN           | Beatrice             |      X  | | 
+| `ST/page/datasets`                    | NF           | Beatrice             |      X  | |
+| `ST/datasets/management/create`       | FN           | Beatrice             |      X  | |
+| `ST/datasets/management/save`         | FN           | Beatrice             |      X  | |
+| `ST/page/modelling`                   | NF           | Both                 |      X  | |
 | `ST/modelling/datasets/list`          | FN           | Beatrice             |      X  | |
 | `ST/modelling/datasets/features`      | FN           | Beatrice             |      X  | |
-| `ST/modelling/models`                 | FN           |                      |         | |
-| `ST/modelling/pipeline/split`         | FN           |                      |         | |
-| `ST/modelling/pipeline/metrics`       | FN           |                      |         | |
-| `ST/modelling/pipeline/summary`       | FN           |                      |         | |
-| `ST/modelling/pipeline/train`         | FN           |                      |         | |
-| `ST/modelling/pipeline/save`          | FN           |                      |         | |
-| `ST/page/deployment`                  | FN           |                      |         | |
-| `ST/deployment/load`                  | FN           |                      |         | |
-| `ST/deployment/predict`               | FN           |                      |         | |
+| `ST/modelling/models`                 | FN           | Jonathan             |      X  | |
+| `ST/modelling/pipeline/split`         | FN           | Jonathan             |      X  | |
+| `ST/modelling/pipeline/metrics`       | FN           | Jonathan             |      X  | |
+| `ST/modelling/pipeline/summary`       | FN           | Jonathan             |      X  | |
+| `ST/modelling/pipeline/train`         | FN           | Jonathan             |      X  | |
+| `ST/modelling/pipeline/save`          | FN           | Jonathan             |      X  | |
+| `ST/page/deployment`                  | FN           | Jonathan             |      X  | |
+| `ST/deployment/load`                  | FN           | Jonathan             |      X  | |
+| `ST/deployment/predict`               | FN           | Jonathan             |      X  | |
 
 If you add extra features, please indicate them below:
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |

@@ -14,6 +14,8 @@ class KNearestNeighbors(Model):
     """
     k: int = Field(title="Number of neighbors", default=3)
     _parameters = dict = PrivateAttr(default_factory=dict)
+    name: str = "k_nearest_neighbors"
+    type: str = "classification"
 
     def __init__(self, k: int = 3) -> None:
         """Initialize with default k=3"""
@@ -26,17 +28,17 @@ class KNearestNeighbors(Model):
             raise ValueError("k must be greater than 0")
         return value
 
-    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+    def fit(self, x: np.ndarray, y: np.ndarray) -> None:
         """
         Trains the model by fitting the observations and ground_truth into the
         _parameters dictionary
         """
         self._parameters = {
-            "observations": X,
+            "observations": x,
             "ground_truth": y
         }
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
+    def predict(self, x: np.ndarray) -> np.ndarray:
         """
         Makes predictions for the new observations using a helper method
         """
@@ -44,7 +46,7 @@ class KNearestNeighbors(Model):
             raise ValueError("Model not fitted. Call 'fit' with"
                              "appropriate arguments")
 
-        predictions = [self._predict_single(x) for x in X]
+        predictions = [self._predict_single(x1) for x1 in x]
         return np.array(predictions)
 
     def _predict_single(self, x: np.ndarray) -> Any:
@@ -53,8 +55,8 @@ class KNearestNeighbors(Model):
         observation
         """
 
-        distances = np.linalg.norm(self._parameters["observations"]
-                                   - x, axis=1)
+        distances = np.linalg.norm(self._parameters["observations"] - x,
+                                   axis=1)
         if not isinstance(self.k, int):
             raise TypeError(f"k must be an integer, got {type(self.k)}")
 

@@ -1,4 +1,3 @@
-
 from autoop.core.ml.model.model import Model
 from autoop.core.ml.model.regression.multiple_linear_regression import (
     MultipleLinearRegression)
@@ -9,6 +8,8 @@ from autoop.core.ml.model.classification.k_nearest_neighbors import (
 from autoop.core.ml.model.classification.logistic_regression import (
     LogisticRegressionModel)
 from autoop.core.ml.model.classification.naive_bayes import NaiveBayesModel
+
+"""Models"""
 
 REGRESSION_MODELS = ["multiple_linear_regression",
                      "lasso_wrapper",

@@ -8,6 +8,8 @@ class MultipleLinearRegression(Model):
     Multiple linear regression model that inherits its methods structure and
     attributes from the base model Model
     """
+    type: str = "regression"
+    name: str = "multiple_linear_regression"
 
     def __init__(self) -> None:
         """Inherits init from Model"""
@@ -25,13 +27,12 @@ class MultipleLinearRegression(Model):
         Stores the fitted parameters in the 'parameters'
         attribute as a dictionary.
         """
-        self.validate_fit_and_predict(X, y, is_predict=False)
 
         # Adds a column of ones to observations
         observations_tilde = np.column_stack([np.ones(X.shape[0]),
                                              X])
 
-        est_param = (np.linalg.inv(observations_tilde.T @ observations_tilde)
+        est_param = (np.linalg.pinv(observations_tilde.T @ observations_tilde)
                      @ observations_tilde.T @ y)
 
         self._parameters = {'parameters': est_param}
@@ -45,7 +46,6 @@ class MultipleLinearRegression(Model):
         Returns the vector of predictions by multiplying the new observations
         with the estimated paramaters
         """
-        self.validate_fit_and_predict(X, is_predict=True)
 
         para = self._parameters['parameters']
 

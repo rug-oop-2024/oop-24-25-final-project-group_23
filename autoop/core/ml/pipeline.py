@@ -5,12 +5,13 @@ from autoop.core.ml.artifact import Artifact
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.model import Model
 from autoop.core.ml.feature import Feature
-from autoop.core.ml.metric import Metric
+from autoop.core.ml.metric import Metric, get_metric
 from autoop.functional.preprocessing import preprocess_features
 import numpy as np
 
 
 class Pipeline():
+    """Pipeline for model executions"""
 
     def __init__(self,
                  metrics: List[Metric],
@@ -145,14 +146,14 @@ Pipeline(
 
         # Evaluate on the training set
         self._test_X, self._test_y = self._train_X, self._train_y
-        self._evaluate()  # Evaluate on training data
+        self._evaluate()
         train_metrics_results = [(f"train_{metric}", result) for metric,
                                  result in self._metrics_results]
         train_predictions = self._predictions
 
         # Evaluate on the test set
         self._test_X, self._test_y = self._test_X, self._test_y
-        self._evaluate()  # Evaluate on test data
+        self._evaluate()
         test_metrics_results = [(f"test_{metric}", result) for metric,
                                 result in self._metrics_results]
         test_predictions = self._predictions
@@ -167,3 +168,71 @@ Pipeline(
                 "test": test_predictions
             }
         }
+
+    def to_artifact(self, name: str, version: str = "1.0.0") -> Artifact:
+        """
+        Converts the pipeline into an artifact for storage.
+
+        Args:
+            name (str): Name of the pipeline artifact.
+            version (str): Version of the pipeline artifact.
+
+        Returns:
+            Artifact: The serialized artifact for the pipeline.
+        """
+        # Gather pipeline configuration data
+        pipeline_data = {
+            "model_type": self.model.type,
+            "model_parameters": self._model.get_parameters(),
+            "input_features": [feature.name for feature in
+                               self._input_features],
+            "target_feature": self._target_feature.name,
+            "metrics": [metric.__class__.__name__ for metric in self._metrics],
+            "split_ratio": self._split,
+        }
+
+        # Serialize the pipeline data
+        serialized_data = pickle.dumps(pipeline_data)
+
+        # Create and return an artifact with the serialized pipeline data
+        artifact = Artifact(
+            name=name,
+            asset_path=f"{name}_{version}.pkl",
+            data=serialized_data,
+            type="pipeline",
+            version=version,
+        )
+
+        return artifact
+
+    @classmethod
+    def from_artifact(cls, artifact: Artifact) -> 'Pipeline':
+        """
+        Loads a pipeline from a saved artifact.
+
+        Args:
+            artifact (Artifact): The artifact containing the serialized
+            pipeline.
+
+        Returns:
+            Pipeline: The reconstructed pipeline instance.
+        """
+        # Deserialize the pipeline data
+        pipeline_data = pickle.loads(artifact.read())
+
+        # Reconstruct pipeline components based on the artifact data
+        model = Model.get_parameters(pipeline_data["model_parameters"])
+        input_features = [Feature(name=name) for name in
+                          pipeline_data["input_features"]]
+        target_feature = Feature(name=pipeline_data["target_feature"])
+        metrics = [get_metric(name) for name in pipeline_data["metrics"]]
+        # Initialize and return a new Pipeline instance
+        pipeline = cls(
+            model=model,
+            input_features=input_features,
+            target_feature=target_feature,
+            metrics=metrics,
+            split=pipeline_data["split_ratio"]
+        )
+
+        return pipeline

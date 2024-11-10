@@ -1,6 +1,5 @@
 import base64
 from typing import Dict, List, Optional, Any
-import pandas as pd
 
 
 class Artifact:

@@ -2,45 +2,44 @@ from abc import ABC, abstractmethod
 from autoop.core.ml.artifact import Artifact
 import numpy as np
 from pydantic import PrivateAttr
+from typing import Literal
+import os
+import pickle
 
 
 class Model(ABC):
+    """Base model for all ml models"""
     _parameters = dict = PrivateAttr(default_factory=dict)
+    name: str
+    type = Literal["classification" or "regression"]
 
-    def validate_fit_and_predict(self, X: np.ndarray, y:
-                                 np.ndarray, is_predict: bool = True) -> None:
-        """ Validates the input arrays for fit and predict methods.
+    def to_artifact(self, name: str, asset_path: str =
+                    "./model_artifacts/") -> Artifact:
+        """Convert the model to an Artifact for storage or transfer."""
+        os.makedirs(asset_path, exist_ok=True)
 
-        Args:
-            observations (np.ndarray): The observation matrix.
-            ground_truth (np.ndarray): The ground truth vector.
-            is_fit (bool): Indicates if this is a fit method validation.
+        # Serialize the model's attributes (e.g., parameters) to bytes
+        # for storage
+        model_data = {
+            "name": self.name,
+            "type": self.type,
+            "parameters": self._parameters
+        }
+        model_bytes = pickle.dumps(model_data)
 
-        Raises:
-            TypeError: If the inputs are not of the expected types.
-            ValueError: If the input shapes are not correct.
-        """
+        artifact_asset_path = os.path.join(asset_path, f"{name}.pkl")
 
-        if not isinstance(X, np.ndarray):
-            raise TypeError("Observations must be an np.ndarray.")
+        # Construct and return the Artifact
+        artifact = Artifact(
+            name=name,
+            asset_path=artifact_asset_path,
+            data=model_bytes,
+            type=self.type,
+            tags=["model", self.type],
+            metadata={"model_name": self.name, "model_type": self.type}
+        )
 
-        if not is_predict:
-            if not isinstance(y, np.ndarray):
-                raise TypeError("Ground_truth must be an np.ndarray")
-
-            if len(X.shape) != 2 or len(y.shape) != 1:
-                raise ValueError("Observations must be a 2D array and"
-                                 "ground_truth must be a 1D array.")
-
-        else:
-            if self._parameters is None:
-                raise ValueError("Model has not been trained yet."
-                                 "Call fit first.")
-
-            n_features = self._parameters['parameters'].shape[0] - 1
-            if X.shape[1] != n_features:
-                raise ValueError(f"observations must have {n_features}"
-                                 "features (columns)")
+        return artifact
 
     @abstractmethod
     def fit(self, X: np.ndarray, y: np.ndarray) -> None:
