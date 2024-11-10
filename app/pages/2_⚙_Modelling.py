@@ -103,11 +103,12 @@ if selected_dataset:
 
         # Step 5: Select Metrics
         st.header("5. Select Metrics")
-        compatible_metrics = [metric for metric in METRICS if (
-            task_type == "classification" and metric in
-            ["accuracy", "precision", "f1_score"]) or
-            (task_type == "regression" and metric in
-             ["mean_squared_error", "mean_absolute_error", "r_squared"])]
+        compatible_metrics = [
+            metric for metric in METRICS if (
+             task_type == "classification" and metric in
+             ["accuracy", "precision", "f1_score"]) or (
+                 task_type == "regression" and metric in
+                ["mean_squared_error", "mean_absolute_error", "r_squared"])]
         selected_metrics = st.multiselect("Select metrics for evaluation",
                                           options=compatible_metrics)
         metrics_objs = [get_metric(metric) for metric in selected_metrics]

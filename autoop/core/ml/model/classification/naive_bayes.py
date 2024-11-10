@@ -18,6 +18,7 @@ class NaiveBayesModel(Model):
     name: str = "naive_bayes"
 
     def __init__(self) -> None:
+        """Initialization"""
         self._parameters = {
             'priors': None,
             'likelihoods': None
@@ -83,10 +84,11 @@ class NaiveBayesModel(Model):
                 prior = np.log(self._parameters['priors'][c])
                 # Likelihood log-probability under Gaussian assumption
                 likelihood = -0.5 * np.sum(
-                    np.log(2 * np.pi
-                           * self._parameters['likelihoods'][c]['var'])
-                    + ((x - self._parameters['likelihoods'][c]['mean']) ** 2)
-                    / (self._parameters['likelihoods'][c]['var'])
+                    np.log(
+                        2 * np.pi * self._parameters['likelihoods'][c][
+                         'var']) + ((x - self._parameters['likelihoods'][c][
+                             'mean']) ** 2) / (self._parameters[
+                                 'likelihoods'][c]['var'])
                 )
                 # Total log-probability for class c
                 class_probabilities[c] = prior + likelihood
