@@ -29,12 +29,10 @@ if selected_pipeline_name:
     st.write(f"**Input Features**: "
              f"{[feature.name for feature in loaded_pipeline.input_features]}")
     st.write(f"**Target Feature**: {loaded_pipeline.target_feature.name}")
-    st.write(
-        "**Metrics**: ["
-        + ", ".join(metric.__class__.__name__ for metric in
-                    loaded_pipeline.metrics)
-        + "]"
+    metrics_list = ", ".join(
+        metric.__class__.__name__ for metric in loaded_pipeline.metrics
     )
+    st.write(f"**Metrics**: [{metrics_list}]")
 
 # Step 3: Upload CSV for Predictions
 st.header("2. Upload a CSV for Predictions")
