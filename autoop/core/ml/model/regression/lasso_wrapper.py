@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.linear_model import Lasso
 from pydantic import PrivateAttr
 from copy import deepcopy
+from typing import Optional
 
 
 class LassoWrapper(Model):
@@ -18,7 +19,8 @@ class LassoWrapper(Model):
         """Wraps the lasso model in this model"""
         self.model = Lasso()
 
-    def fit(self, x: np.ndarray, y: np.ndarray, sample_weight=None,
+    def fit(self, x: np.ndarray, y: np.ndarray,
+            sample_weight: Optional[np.ndarray] = None,
             check_input: bool = True) -> None:
         """
         Fit the Lasso model to the input data X and target y.

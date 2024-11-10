@@ -83,12 +83,11 @@ class NaiveBayesModel(Model):
                 # Prior log-probability
                 prior = np.log(self._parameters['priors'][c])
                 # Likelihood log-probability under Gaussian assumption
+                variance = self._parameters['likelihoods'][c]['var']
+                mean_diff = x - self._parameters['likelihoods'][c]['mean']
+
                 likelihood = -0.5 * np.sum(
-                    np.log(
-                        2 * np.pi * self._parameters['likelihoods'][c][
-                            'var']) + ((x - self._parameters['likelihoods'][c][
-                             'mean']) ** 2) / (self._parameters[
-                                 'likelihoods'][c]['var'])
+                    np.log(2 * np.pi * variance) + (mean_diff ** 2) / variance
                 )
                 # Total log-probability for class c
                 class_probabilities[c] = prior + likelihood
